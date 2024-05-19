@@ -113,7 +113,10 @@ def run_netlist(wdir):
   synthesis_output = safe_run(command + ["make", "-f", wdir + "Makefile", "--directory", wdir, "--silent"] + current_app.config['MAKE_ARGS'] + ["netlist.json"], stderr = sp.STDOUT)
 
   # Run netlistsvg locally
-  netlistsvg_output = safe_run(["netlistsvg", wdir + "netlist.json", "-o", netlist_output, "--skin", current_app.config['SRCDIR'] + "/customskin.svg"], stderr = sp.STDOUT)
+#  netlistsvg_output = safe_run(["netlistsvg", wdir + "netlist.json", "-o", netlist_output, "--skin", current_app.config['SRCDIR'] + "/customskin.svg"], stderr = sp.STDOUT)
+  
+  # Run netlistsvg in the image
+  netlistsvg_output = safe_run(command+["netlistsvg", wdir + "netlist.json", "-o", netlist_output, "--skin",  "/home/netlistsvg/skins/customskin.svg"], stderr = sp.STDOUT)
 
   return synthesis_output.decode('utf-8') + '\n\n' + netlistsvg_output.decode('utf-8')
 
